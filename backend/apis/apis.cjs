@@ -57,21 +57,6 @@ async function insertData(req, res, database) {
     // Get the data from the request body
     const data = req.body;
 
-    // Check if the data already exists in the database
-    // const existingData = await database.findOne({
-    //   $or: [
-    //     { question: data.question },
-    //     { options: data.options },
-    //     { answer: data.answer },
-    //     { tagImage: data.tagImage },
-    //   ],
-    // });
-
-    // // If the data already exists, return a 409 error
-    // if (existingData) {
-    //   return res.status(409).json({ message: "This entry already exists." });
-    // }
-
     // Create a new document in the database
     const newData = await database.create(data);
 

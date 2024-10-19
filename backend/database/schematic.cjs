@@ -82,6 +82,10 @@ const userSchema = new mongoose.Schema(
         message: "Invalid email address",
       },
     },
+    points: {
+      type: Number,
+      required: true,
+    },
   },
   { timestamps: true }
 );

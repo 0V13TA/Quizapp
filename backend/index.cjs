@@ -3,6 +3,7 @@ const express = require("express");
 const connectDB = require("./database/db.cjs");
 const { Question, User, TagImages } = require("./database/schematic.cjs");
 const interactWithDb = require("./apis/apis.cjs");
+const userAuth = require("./auth/userAuth.cjs");
 const {
   uploadUserWithImage,
   uploadTagImage,
@@ -34,6 +35,11 @@ app.put("/users/:id", (req, res) => {
 app.delete("/users", (req, res) => {
   interactWithDb.deleteData(req, res, User);
 });
+
+// Authentication
+
+app.get("/users/auth", (req, res) => userAuth(req, res, User));
+
 //#endregion Users
 
 //#region Question
