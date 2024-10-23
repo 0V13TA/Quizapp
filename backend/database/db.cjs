@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
-const dbURI = "mongodb://localhost:27017/Quizapp";
+const dbURI = process.env.VITE_DBURI;
 
 const connectDB = async () => {
   try {
+    console.log("Database URI:", dbURI);
     await mongoose.connect(dbURI);
     console.log("MongoDB Connected...");
   } catch (err) {

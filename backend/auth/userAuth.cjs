@@ -1,4 +1,5 @@
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 async function userAuth(req, res, database) {
   try {
@@ -6,7 +7,9 @@ async function userAuth(req, res, database) {
     const user = await database.findOne({ username: username });
 
     if (!user) {
-      return res.status(404).json({ message: "Username does not exist" });
+      return res.status(404).json({
+        message: "Username does not exist",
+      });
     }
 
     const passwordCompare = bcrypt.compareSync(password, user.password);
@@ -14,11 +17,21 @@ async function userAuth(req, res, database) {
     if (!passwordCompare) {
       return res.status(401).json({ message: "Incorrect Password" });
     } else {
-      return res.status(200).json({ message: "Authentication successful" });
+      const jwtToken = process.env.VITE_JWT_TOKEN;
+      const token = jwt.sign({ username: user.username }, jwtToken, {
+        expiresIn: "1h",
+      });
+      return res.status(200).json({
+        message: "Login Successful",
+        token: token,
+        username: username,
+      });
     }
   } catch (error) {
     console.error("Authentication Failed: ", error);
-    res.status(500).json({ message: error });
+    res
+      .status(500)
+      .json({ message: "Sorry Login Failed. Pls Try Again Later" });
   }
 }
 

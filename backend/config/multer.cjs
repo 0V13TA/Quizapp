@@ -1,10 +1,13 @@
+const api_key = process.env.VITE_API_KEY;
 const cloudinary = require("cloudinary").v2;
+const cloud_name = process.env.VITE_CLOUD_NAME;
+const api_secret = process.env.VITE_API_SECRET;
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
 
 cloudinary.config({
-  cloud_name: "drtn2jrvh",
-  api_key: "941814149596212",
-  api_secret: "EC3RgrEwR9Jyh5t1Y7bjNvbZwOg",
+  cloud_name: cloud_name,
+  api_key: api_key,
+  api_secret: api_secret,
 });
 
 const storage = new CloudinaryStorage({

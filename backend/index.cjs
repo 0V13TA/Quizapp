@@ -1,24 +1,28 @@
 //#region Declarations
+require("dotenv").config();
 const express = require("express");
 const connectDB = require("./database/db.cjs");
 const { Question, User, TagImages } = require("./database/schematic.cjs");
 const interactWithDb = require("./apis/apis.cjs");
 const userAuth = require("./auth/userAuth.cjs");
+const cors = require("cors");
 const {
   uploadUserWithImage,
   uploadTagImage,
 } = require("./apis/imageUpload.cjs");
 const app = express();
-app.use(express.json());
 
 const storage = require("./config/multer.cjs");
 const multer = require("multer");
 
 const parser = multer({ storage: storage });
+app.use(express.json());
+app.use(cors());
+
 //#endregion
 
 //#region Users
-app.post("/users/:limit?/:page?", (req, res) =>
+app.get("/users/:limit?/:page?", (req, res) =>
   interactWithDb.getAllData(res, User, req.params.page, req.params.limit)
 );
 
@@ -38,7 +42,7 @@ app.delete("/users", (req, res) => {
 
 // Authentication
 
-app.get("/users/auth", (req, res) => userAuth(req, res, User));
+app.post("/users/auth", parser.none(), (req, res) => userAuth(req, res, User));
 
 //#endregion Users
 
@@ -84,4 +88,10 @@ app.delete("/tags", (req, res) =>
 //#endregion
 
 connectDB();
-app.listen(3000, () => console.log("Server is running on port 3000"));
+const port = process.env.VITE_API_URL || 3000;
+
+app.listen(port, () =>
+  console.log(
+    `Server ${port === 3000 ? "listening on port 3000" : "running on " + port}`
+  )
+);

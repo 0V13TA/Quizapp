@@ -1,3 +1,5 @@
+const jwt = require("jsonwebtoken");
+
 function handleError(res, errorMessage) {
   console.error(errorMessage);
   return res.status(500).json({ message: "Internal server error" });
@@ -14,17 +16,32 @@ async function uploadUserWithImage(req, res, database) {
       });
     }
 
+    if (password.length < 6) {
+      return res.status(400).json({
+        message: "Password must not be less than six characters",
+      });
+    }
+
     const user = {
-      username: username,
+      username: username.toLowerCase(),
       password: password,
       image: file,
       email: email,
     };
 
     const createdUser = await database.create(user);
-    res
-      .status(200)
-      .json({ message: "User  created successfully", user: createdUser });
+
+    const jwtToken = process.env.VITE_JWT_TOKEN;
+
+    const token = jwt.sign({ username: user.username }, jwtToken, {
+      expiresIn: "1h",
+    });
+
+    res.status(200).json({
+      message: "User created successfully",
+      user: createdUser,
+      token: token,
+    });
   } catch (error) {
     return handleError(res, "Error creating user: " + error);
   }

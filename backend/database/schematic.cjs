@@ -85,6 +85,7 @@ const userSchema = new mongoose.Schema(
     points: {
       type: Number,
       required: true,
+      default: 0,
     },
   },
   { timestamps: true }

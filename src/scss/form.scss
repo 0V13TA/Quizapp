@@ -1,0 +1,76 @@
+/* Register container styles */
+.form {
+  /* Center the container horizontally and vertically */
+  width: 60%;
+  max-width: 400px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  /* Add a rounded border and padding */
+  border-radius: 20px;
+  border: 2px solid purple;
+  padding: 10px;
+
+  /* Style the heading */
+  h1 {
+    color: purple;
+  }
+
+  /* Style the form container */
+  &-inputs {
+    /* Display the form elements in a column */
+    display: flex;
+    flex-direction: column;
+    /* Remove the border and add padding */
+    border: none;
+    padding: 10px;
+
+    /* Style the input fields */
+    input {
+      /* Add padding and remove the border */
+      padding: 10px;
+      border: none;
+      /* Add a margin and a purple bottom border */
+      margin: 10px;
+      border-bottom: 2px solid purple;
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    input[type="file"] {
+      width: 90%;
+    }
+
+    /* Style the submit button */
+    input[type="submit"] {
+      /* Add a purple border and a rounded corner */
+      border: 2px solid purple;
+      border-radius: 10px;
+      /* Display the button as a flex container */
+      display: flex;
+      /* Make the background transparent */
+      background-color: transparent;
+      /* Position the button relatively */
+      position: relative;
+    }
+  }
+
+  /* Style the paragraph */
+  p {
+    /* Center the text */
+    text-align: center;
+    /* Set the width to 100% */
+    width: 100%;
+
+    /* Style the link */
+    a {
+      /* Remove the text decoration */
+      text-decoration: none;
+      /* Set the color to orange */
+      color: orange;
+    }
+  }
+}
