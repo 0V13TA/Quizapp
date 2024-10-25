@@ -1,37 +1,31 @@
+// App.tsx
 import "./scss/globals.scss";
-import { useState } from "react";
-import Home from "./components/Home.tsx";
-import Test from "./components/Test.tsx";
-import Login from "./components/Login.tsx";
+import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar.tsx";
-import Profile from "./components/Profile.tsx";
-import { Route, Routes } from "react-router-dom";
-import Noroutes from "./components/Noroutes.tsx";
+import Home from "./components/Home.tsx";
+import Login from "./components/Login.tsx";
 import Register from "./components/Register.tsx";
+import Test from "./components/Test.tsx";
+import Profile from "./components/Profile.tsx";
 import Leaderboard from "./components/Leaderboard.tsx";
-import { shareContext } from "./context/shareContext.tsx";
+import Noroutes from "./components/Noroutes.tsx";
+import { ShareProvider } from "./context/shareContext.tsx"; // Adjust the import as needed
 
 function App() {
-  const [sharedUsername, setSharedUsername] = useState("");
   return (
     <div className="main">
-      <shareContext.Provider
-        value={{
-          sharedUsername,
-          setSharedUsername,
-        }}
-      >
-        <Navbar></Navbar>
+      <ShareProvider>
+        <Navbar />
         <Routes>
-          <Route path="/" Component={Home} />
-          <Route path="/login" Component={Login} />
-          <Route path="/register" Component={Register} />
-          <Route path="/test" Component={Test} />
-          <Route path="/profile" Component={Profile} />
-          <Route path="/scoreboard" Component={Leaderboard} />
-          <Route path="*" Component={Noroutes} />
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/test" element={<Test />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/scoreboard" element={<Leaderboard />} />
+          <Route path="*" element={<Noroutes />} />
         </Routes>
-      </shareContext.Provider>
+      </ShareProvider>
     </div>
   );
 }

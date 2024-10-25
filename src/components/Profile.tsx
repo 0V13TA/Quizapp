@@ -1,7 +1,6 @@
-import React, { useContext } from "react";
-import { shareContext } from "../context/shareContext";
+import { useShareContext } from "../context/useShareContext";
 
 export default function Profile() {
-  const { sharedUsername } = useContext(shareContext);
+  const { sharedUsername } = useShareContext();
   return <div>{sharedUsername}</div>;
 }

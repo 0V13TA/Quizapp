@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { shareContext } from "../context/shareContext";
+import { useShareContext } from "../context/useShareContext";
+import * as jwtDecode from "jwt-decode";
 import "../scss/form.scss";
 
 export default function Register() {
@@ -9,8 +10,18 @@ export default function Register() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [image, setImage] = useState<File | null>(null);
   const [email, setEmail] = useState("");
-  const { setSharedUsername } = useContext(shareContext);
+  const { setSharedUsername } = useShareContext();
   const navigate = useNavigate();
+
+  const decodeToken = (token: string) => {
+    try {
+      const decoded = jwtDecode(token); // Decode the token
+      return decoded; // Return the decoded token
+    } catch (error) {
+      console.log("Error decoding json web token: ", error);
+      return null; // or return false
+    }
+  };
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -21,8 +32,8 @@ export default function Register() {
     }
 
     if (
-      !["image/jpeg", "image/png", "image/jpg"].includes(image.type) ||
-      null
+      !image ||
+      !["image/jpeg", "image/png", "image/jpg"].includes(image.type)
     ) {
       alert("Please upload a valid image file (JPG, JPEG, or PNG).");
       return;
@@ -39,16 +50,12 @@ export default function Register() {
         method: "POST",
         body: formData,
       });
+      const data = await response.json();
 
-      if (response.ok) {
+      if (response.ok && decodeToken(data.token)) {
+        // Use the modified decodeToken function
         navigate("/profile");
-        const data = await response.json();
         setSharedUsername(data.username);
-      } else {
-        alert("Registration failed. Please try again.");
-        const data = await response.json();
-        const message = data.message;
-        console.log(message);
       }
     } catch (error) {
       console.error("Error during registration:", error);
@@ -102,7 +109,10 @@ export default function Register() {
             type="file"
             name="image"
             id="form-image"
-            onChange={(e) => setImage(e.target.files?.[0])}
+            onChange={(e) => {
+              const files = e.target.files;
+              setImage(files && files.length > 0 ? files[0] : null); // Set to null if no file is selected
+            }}
             placeholder="image"
           />
         </div>

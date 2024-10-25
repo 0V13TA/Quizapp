@@ -2,8 +2,10 @@
 
 ## What the quizapp will be able to do
 
+- [x] Activate environment variables
 - [x] Register users
 - [x] Login users
+- [ ] Implement JWT
 - [ ] Display questions to users
 - [ ] Keep track of user's score
 - [ ] Display the final score of the user
