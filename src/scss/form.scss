@@ -3,7 +3,7 @@
   /* Center the container horizontally and vertically */
   width: 60%;
   max-width: 400px;
-  position: absolute;
+  position: relative;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
@@ -71,6 +71,28 @@
       text-decoration: none;
       /* Set the color to orange */
       color: orange;
+    }
+  }
+
+  &-imageBtn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: transparent;
+    border: 2px solid purple;
+    padding: 10px;
+    border-radius: 10px;
+    transition: 0.5s ease-in-out;
+    font-weight: bold;
+
+    &:hover {
+      color: white;
+      background-color: purple;
+    }
+
+    &:focus {
+      color: white;
+      background-color: purple;
     }
   }
 }

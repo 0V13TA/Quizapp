@@ -5,9 +5,9 @@ import Navbar from "./components/Navbar.tsx";
 import Home from "./components/Home.tsx";
 import Login from "./components/Login.tsx";
 import Register from "./components/Register.tsx";
-import Test from "./components/Test.tsx";
-import Profile from "./components/Profile.tsx";
-import Leaderboard from "./components/Leaderboard.tsx";
+import Test from "./auth/Test.tsx";
+import Profile from "./auth/Profile.tsx";
+import Leaderboard from "./auth/Leaderboard.tsx";
 import Noroutes from "./components/Noroutes.tsx";
 import { ShareProvider } from "./context/shareContext.tsx"; // Adjust the import as needed
 

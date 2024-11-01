@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useShareContext } from "../context/useShareContext";
 import * as jwtDecode from "jwt-decode";
 import "../scss/form.scss";
+import { motion, useAnimationControls } from "framer-motion";
 
 export default function Register() {
   const [username, setUsername] = useState("");
@@ -12,6 +13,13 @@ export default function Register() {
   const [email, setEmail] = useState("");
   const { setSharedUsername } = useShareContext();
   const navigate = useNavigate();
+  const imageSlider = useAnimationControls();
+
+  const showImage = () => {
+    imageSlider.start("move");
+  };
+
+  useEffect(() => {});
 
   const decodeToken = (token: string) => {
     try {
@@ -103,25 +111,41 @@ export default function Register() {
           required
           onChange={(e) => setConfirmPassword(e.target.value)}
         />
-        <div className="form-image">
-          <label htmlFor="image">Image: </label>
+        <motion.div
+          className="form-image"
+          variants={{
+            initial: {
+              display: "none",
+              x: 0,
+            },
+            move: {
+              display: "flex",
+              x: 10,
+            },
+          }}
+          initial="initial"
+          animate={imageSlider}
+        >
+          <label htmlFor="form-image">Image:</label>
           <input
             type="file"
-            name="image"
+            name="form-image"
             id="form-image"
             onChange={(e) => {
               const files = e.target.files;
-              setImage(files && files.length > 0 ? files[0] : null); // Set to null if no file is selected
+              setImage(files && files.length > 0 ? files[0] : null);
             }}
             placeholder="image"
           />
-        </div>
+        </motion.div>
         <input type="submit" value="Register" />
       </form>
 
       <p>
         Already Have An Account? <Link to="/login">Login</Link>
       </p>
+
+      <button onClick={showImage} className="form-imageBtn">Upload Image</button>
     </div>
   );
 }
